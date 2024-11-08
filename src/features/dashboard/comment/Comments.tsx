@@ -1,36 +1,21 @@
+import { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import Card from '../../../components/cards/Card';
-import { getComments } from '../../../services/comments.service';
+import Select from '../../../components/form/Select';
 import Loading from '../../../components/Loading';
 import HeadingText from '../../../components/typography/HeadingText';
-import { useMemo, useState } from 'react';
-import Select from '../../../components/form/Select';
-
-interface IComment {
-  postId: number;
-  id: number;
-  name: string;
-  email: string;
-  body: string;
-}
+import { getComments } from '../../../services/comments.service';
+import { usePostOptions } from '../../../utils/hooks/usePostOptions';
+import { IComment } from '../../../utils/type/IComment';
 
 const Posts = () => {
   useQueryClient();
 
   const query = useQuery('comments', getComments);
+  const options = usePostOptions();
+
   const [filterWith, setFilterWith] = useState<number | string>('all');
-
-  const options: { label: string; value: number }[] = useMemo(() => {
-    if (!query.data?.length || query.isLoading) {
-      return [];
-    }
-
-    return query.data.map((data: IComment) => ({
-      label: data.name,
-      value: data.id,
-    }));
-  }, [query.data?.length]);
 
   const handleOnSelect = (value: number | string) => {
     setFilterWith(value);
@@ -54,7 +39,7 @@ const Posts = () => {
             if (filterWith === 'all') {
               return true;
             }
-            return comment.id === filterWith;
+            return comment.postId === filterWith;
           })
           .map((comment: IComment) => (
             <Card
