@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import Card from '../../../components/cards/Card';
 import Select from '../../../components/form/Select';
@@ -9,8 +9,8 @@ import { getComments } from '../../../services/comments.service';
 import { usePostOptions } from '../../../utils/hooks/usePostOptions';
 import { IComment } from '../../../utils/type/IComment';
 
-const Posts = () => {
-  useQueryClient();
+const Comments = () => {
+  // useQueryClient();
 
   const query = useQuery('comments', getComments);
   const options = usePostOptions();
@@ -53,7 +53,7 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default Comments;
 
 const Header = styled.div`
   display: flex;

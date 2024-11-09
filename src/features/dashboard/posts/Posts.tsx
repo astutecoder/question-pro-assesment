@@ -10,7 +10,7 @@ import { IPost } from '../../../utils/type/IPost';
 import { useState } from 'react';
 
 const Posts = () => {
-  useQueryClient();
+  // useQueryClient();
 
   const query = useQuery('posts', getPosts);
   const options = useUserOptions();
